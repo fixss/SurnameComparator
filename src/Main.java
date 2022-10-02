@@ -1,8 +1,6 @@
 import ru.netology.Person;
-import ru.netology.PersonSurnameComparator;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Main {
@@ -17,7 +15,18 @@ public class Main {
         people.add(new Person("Malfoy.Malfoy.Malfoy.Malfoy.Malfoy.Malfoy.Malfoy", "Lucius", 55));
         people.add(new Person("Lord.Lord.Lord.Lord.Lord.Lord.Lord.Lord.Lord", "voldemort", 99));
 
-        Collections.sort(people, new PersonSurnameComparator(6));
-        System.out.println(people);
+        people.sort((Person o1, Person o2) -> {
+            String[] so1 = o1.getSurname().split("\\P{IsAlphabetic}+");
+            String[] so2 = o2.getSurname().split("\\P{IsAlphabetic}+");
+            if (so1.length > 6 && so2.length > 6) {
+                return o2.getAge() - o1.getAge();
+            } else if (so1.length != so2.length) {
+                return so2.length - so1.length;
+            } else {
+                return o2.getAge() - o1.getAge();
+            }
+        });
+
+        System.out.println(people.toString());
     }
 }
